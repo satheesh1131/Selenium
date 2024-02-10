@@ -1,0 +1,91 @@
+package excercise;
+
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+public class Nop_Commerce {
+	public static void main(String[] args) {
+		WebDriver driver=new ChromeDriver();
+		WebDriverWait wait=new WebDriverWait(driver,Duration.ofSeconds(30));
+		driver.manage().window().maximize();
+		driver.get("https://demo.nopcommerce.com/");
+		System.out.print("THE URL OF THE CURRENT PAGE : ");
+		System.out.println(driver.getCurrentUrl());
+		Actions action=new Actions(driver);
+		action.moveToElement(driver.findElement(By.xpath("(//a[text()='Electronics '])[1]"))).perform();
+		action.moveToElement(driver.findElement(By.xpath("(//a[text()='Cell phones '])[1]"))).perform();
+		driver.findElement(By.xpath("(//a[text()='Cell phones '])[1]")).click();
+		System.out.print("THE URL OF THE CURRENT PAGE : ");
+		System.out.println(driver.getCurrentUrl());
+		Select sortPhone=new Select(driver.findElement(By.id("products-orderby")));
+		sortPhone.selectByValue("10");
+		Select noOfItems=new Select(driver.findElement(By.id("products-pagesize")));
+		noOfItems.selectByVisibleText("3");
+		driver.navigate().refresh();
+		driver.findElement(By.xpath("//button[@onclick='return AjaxCart.addproducttocart_catalog(\"/addproducttocart/catalog/20/1/1\"),!1']")).click();
+		driver.findElement(By.xpath("//span[text()='Shopping cart']")).click();
+		System.out.print("THE URL OF THE CURRENT PAGE : ");
+		System.out.println(driver.getCurrentUrl());
+		driver.findElement(By.id("termsofservice")).click();
+		driver.findElement(By.id("checkout")).click();
+		System.out.print("THE URL OF THE CURRENT PAGE : ");
+		System.out.println(driver.getCurrentUrl());
+		driver.findElement(By.xpath("//button[@class='button-1 checkout-as-guest-button']")).click();
+		System.out.print("THE URL OF THE CURRENT PAGE : ");
+		System.out.println(driver.getCurrentUrl());
+		driver.findElement(By.id("ShipToSameAddress")).click();
+		driver.findElement(By.xpath("//input[@id='BillingNewAddress_FirstName']")).sendKeys("Sathish");
+		driver.findElement(By.xpath("//input[@id='BillingNewAddress_LastName']")).sendKeys("Kumar");
+		driver.findElement(By.xpath("//input[@id='BillingNewAddress_Email']")).sendKeys("sathish@gmail.com");
+		driver.findElement(By.xpath("//input[@name='BillingNewAddress.Company']")).sendKeys("Greens_Technology");
+		Select countryDD=new Select(driver.findElement(By.id("BillingNewAddress_CountryId")));
+		countryDD.selectByValue("133");
+		driver.findElement(By.id("BillingNewAddress_City")).sendKeys("Chennai");
+		driver.findElement(By.id("BillingNewAddress_Address1")).sendKeys("No.1 , RamNagar ,");
+		driver.findElement(By.id("BillingNewAddress_Address2")).sendKeys("velachery");
+		driver.findElement(By.id("BillingNewAddress_ZipPostalCode")).sendKeys("600042");
+		driver.findElement(By.id("BillingNewAddress_PhoneNumber")).sendKeys("7639551131");
+		driver.findElement(By.xpath("//button[@onclick='Billing.save()']")).click();
+		System.out.print("THE URL OF THE CURRENT PAGE : ");
+		System.out.println(driver.getCurrentUrl());
+		driver.navigate().refresh();
+		driver.findElement(By.xpath("(//button[text()='Continue'])[1]")).click();
+		System.out.print("THE URL OF THE CURRENT PAGE : ");
+		System.out.println(driver.getCurrentUrl());
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[@for='shippingoption_1']")));
+		driver.findElement(By.xpath("//label[@for='shippingoption_1']")).click();
+		driver.findElement(By.xpath("//button[@onclick='ShippingMethod.save()']")).click();
+		System.out.print("THE URL OF THE CURRENT PAGE : ");
+		System.out.println(driver.getCurrentUrl());
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("paymentmethod_0")));
+		driver.findElement(By.id("paymentmethod_0")).click();
+		driver.findElement(By.xpath("//button[@onclick='PaymentMethod.save()']")).click();
+		System.out.print("THE URL OF THE CURRENT PAGE : ");
+		System.out.println(driver.getCurrentUrl());
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@onclick='PaymentInfo.save()']")));
+		driver.findElement(By.xpath("//button[@onclick='PaymentInfo.save()']")).click();
+		System.out.print("THE URL OF THE CURRENT PAGE : ");
+		System.out.println(driver.getCurrentUrl());
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@onclick='ConfirmOrder.save()']")));
+		driver.findElement(By.xpath("//button[@onclick='ConfirmOrder.save()']")).click();
+		System.out.print("THE URL OF THE CURRENT PAGE : ");
+		System.out.println(driver.getCurrentUrl());
+		System.out.println("CONFIRMATION MESSAGE : ");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//strong[contains(text(),'successfully ')]")));
+		System.out.println(driver.findElement(By.xpath("//strong[contains(text(),'successfully ')]")).getText());
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//strong[contains(text(),'Order ')]")));
+		System.out.println(driver.findElement(By.xpath("//strong[contains(text(),'Order ')]")).getText());
+		driver.findElement(By.xpath("//button[@onclick='setLocation(\"/\")']")).click();
+		System.out.print("THE URL OF THE CURRENT PAGE : ");
+		System.out.println(driver.getCurrentUrl());
+		driver.quit();
+	}
+}
